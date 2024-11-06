@@ -155,7 +155,7 @@ class uploadOssAndGetUrl:
         upload_webp_oss(clean_image, webp_file_name,bucket)
 
         webp_url = domain+"/"+webp_file_name
-        print(webp_url)
+
         return {"ui": {"text": (webp_url,)}, "result": (webp_url,)}
 
 
@@ -236,12 +236,10 @@ class ALY_Seg_Common_Utils_URL:
         binary_io.seek(0)
         width, height = image.size
         if width >= 2000 or height >= 2000:
-            print("HD",image.size)
             segment_common_request = SegmentHDCommonImageAdvanceRequest()
             segment_common_request.image_url_object =binary_io
 
         else:
-            print("common")
             segment_common_request = SegmentCommonImageAdvanceRequest()
             segment_common_request.image_url_object =binary_io
 
@@ -254,15 +252,13 @@ class ALY_Seg_Common_Utils_URL:
             # 初始化Client
             client = imagese.create_client_json(access_key,secret_key)
             if width >= 2000 or height >= 2000:
-                print("HD",image.size)
                 response = client.segment_hdcommon_image_advance(segment_common_request,runtime)
-                print(response)
+
                 jobid = response.body.request_id
                 time.sleep(5)
                 job_request = GetAsyncJobResultRequest(jobid)
                 response = client.get_async_job_result(job_request)
-                print(response)
-                print(type(response.body.data.result))
+
                 result = response.body.data.result
                 result_image_url = json.loads(result)["imageUrl"]
             else:
@@ -271,7 +267,7 @@ class ALY_Seg_Common_Utils_URL:
 
 
 
-            print(result_image_url)
+
 
         except Exception as error:
             # 获取整体报错信息
@@ -341,9 +337,8 @@ class ALY_Seg_Body_Utils_Return_crop:
 
         except Exception as error:
             # 获取整体报错信息
-            print("==========错误 start===========")
             print(error)
-            print("==========错误 end===========")
+
 
         response = requests.get(image_url)
         response.raise_for_status()
@@ -426,16 +421,15 @@ class ALY_Seg_Body_Utils:
                 response = client.segment_hdbody_advance(segment_body_request, runtime)
             else:
                 response = client.segment_body_advance(segment_body_request, runtime)
-            print("输出:",response)
+
             image_url = response.body.data.image_url
 
-            print(image_url)
+
 
         except Exception as error:
             # 获取整体报错信息
-            print("==========错误 start===========")
             print(error)
-            print("==========错误 end===========")
+
 
         source_img = get_image_from_url(image_url)
         # combined_mask = add_masks(pil2tensor(source_img),pil2tensor(img_from_url(class_urls[0])),pil2tensor(img_from_url(class_urls[1])),pil2tensor(img_from_url(class_urls[2])))
@@ -530,7 +524,7 @@ class ALY_Seg_Utils:
         # 获取字节数据
         image_bytes = binary_io.getvalue()
         # 打印字节长度
-        print(f'Image byte length: {len(image_bytes)}')
+
         segment_cloth_request = SegmentClothAdvanceRequest()
         segment_cloth_request.image_urlobject =binary_io
         classes = ['shoes','bag','hat']
@@ -673,16 +667,16 @@ def check_image_mask(image, mask, name):
         mask = mask[None,:,:]
 
     if image.shape[0] > mask.shape[0]:
-        print(name, "gets batch of images (%d) but only %d masks" % (image.shape[0], mask.shape[0]))
+
         if mask.shape[0] == 1:
-            print(name, "will copy the mask to fill batch")
+
             mask = torch.cat([mask] * image.shape[0], dim=0)
         else:
-            print(name, "will add empty masks to fill batch")
+
             empty_mask = torch.zeros([image.shape[0] - mask.shape[0], mask.shape[1], mask.shape[2]])
             mask = torch.cat([mask, empty_mask], dim=0)
     elif image.shape[0] < mask.shape[0]:
-        print(name, "gets batch of images (%d) but too many (%d) masks" % (image.shape[0], mask.shape[0]))
+
         mask = mask[:image.shape[0],:,:]
 
     return (image, mask)
@@ -747,8 +741,7 @@ class MyGrowMaskWithBlur:
             resolution = height
         expand = expand * resolution/10
         blur_radius = blur_radius * resolution/10
-        print("expand",expand)
-        print("blur_radius",blur_radius)
+
         growmask = mask.reshape((-1, mask.shape[-2], mask.shape[-1])).cpu()
         out = []
         previous_output = None
