@@ -1,4 +1,3 @@
-from .my_nodes import LoadImageFromUrl
 from .my_nodes import SaveImageToOss
 from .my_nodes import LoadMaskFromUrl
 from .my_nodes import DigImageByMask
@@ -12,7 +11,6 @@ from .my_nodes import ALY_Seg_Body_Utils_Return_crop
 
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LS_LoadImageFromUrl": "LS_LoadImageFromUrl",
     "LS_SaveImageToOss": "LS_SaveImageToOss",
     "LS_LoadMaskFromUrl":"LS_LoadMaskFromUrl",
     "LS_DigImageByMask":"LS_DigImageByMask",
@@ -25,7 +23,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LS_ALY_Seg_Body_Utils_Return_crop":"LS_ALY_Seg_Body_Utils_Return_crop"
 }
 NODE_CLASS_MAPPINGS = {
-    "LS_LoadImageFromUrl": LoadImageFromUrl,
     "LS_SaveImageToOss": SaveImageToOss,
     "LS_LoadMaskFromUrl":LoadMaskFromUrl,
     "LS_DigImageByMask":DigImageByMask,
